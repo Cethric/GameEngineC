@@ -1,0 +1,17 @@
+[submodule "glfw"]
+	path = sources/ext/glfw
+	url = https://github.com/glfw/glfw
+[submodule "assimp"]
+	path = sources/ext/assimp
+	url = https://github.com/assimp/assimp
+
+[submodule "bullet3"]
+	path = sources/ext/bullet3
+	url = https://github.com/bulletphysics/bullet3
+
+[submodule "cpython"]
+	path = sources/ext/cpython
+	url = https://github.com/python/cpython
+[submodule "anttweakbar-code"]
+	path = sources/ext/anttweakbar
+	url = git://git.code.sf.net/p/anttweakbar/code
