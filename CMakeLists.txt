@@ -40,12 +40,28 @@ ExternalProject_Add(
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/sources/ext/cpython
         CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/source/ext/cpython/configure --prefix=<INSTALL_DIR> --enable-sharedb --with-pymalloc
         BUILD_COMMAND ${MAKE}
-        PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/lib/libantlr3c-3.1.3
+        PREFIX ${PROJECT_BINARY_DIR}/lib/cpython
         BUILD_IN_SOURCE 1
         BUILD_DIR ${PROJECT_BINARY_DIR}/cpython
 )
 include_directories(sources/ext/cpython/Include)
-link_directories(${PROJECT_BINARY_DIR}/cpython)
+link_directories(${PROJECT_BINARY_DIR}/lib/cpython)
+#link_libraries(${PROJECT_BINARY_DIR}/cpython)
+
+# Ant Tweak Bar
+#ExternalProject_Add(
+#        anttweakbar
+#        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/sources/ext/anttweakbar/src
+#        CONFIGURE_COMMAND ""
+#        BUILD_COMMAND make -f Makefile.osx
+#        PREFIX ${PROJECT_BINARY_DIR}/lib/anttweakbar
+#        BUILD_IN_SOURCE 1
+#        BUILD_DIR ${PROJECT_BINARY_DIR}/anttweakbar
+#        INSTALL_COMMAND ""
+#)
+#include_directories(sources/ext/anttweakbar/include)
+#link_directories(${PROJECT_BINARY_DIR}/lib/anttweakbar)
+#link_libraries(${PROJECT_BINARY_DIR}/anttweakbar)
 
 ## BUILD
 

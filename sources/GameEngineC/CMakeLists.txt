@@ -22,7 +22,10 @@ target_link_libraries(${PROJECT_NAME} BulletCollision)
 target_link_libraries(${PROJECT_NAME} LinearMath)
 
 # Python
-target_link_libraries(${PROJECT_NAME} python)
+#target_link_libraries(${PROJECT_NAME} libcpython.a)
+
+# Ant Tweak Bar
+#target_link_libraries(${PROJECT_NAME} libanttweakbar.a)
 
 # OpenGL
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})

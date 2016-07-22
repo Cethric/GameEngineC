@@ -10,6 +10,8 @@ bool GameEngineC::prepare(int width, int height, void (* callback) (void)) {
     if (!glfwInit()) {
         return false;
     }
+//    TwInit(TW_OPENGL, NULL);
+//    TwWindowSize(width, height);
     callback();
     return createWindow(width, height);
 }
