@@ -16,3 +16,9 @@
 [submodule "anttweakbar-code"]
 	path = sources/ext/anttweakbar
 	url = git://git.code.sf.net/p/anttweakbar/code
+[submodule "sources/ext/glm"]
+	path = sources/ext/glm
+	url = https://github.com/g-truc/glm
+[submodule "sources/ext/devil"]
+	path = sources/ext/devil
+	url = https://github.com/DentonW/DevIL

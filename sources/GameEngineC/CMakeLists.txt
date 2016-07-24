@@ -4,6 +4,8 @@ project(GameEngineC C CXX)
 
 file(GLOB CPP_FILES source/*.cpp)
 
+include_directories(include)
+
 find_package(OpenGL REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED ${CPP_FILES})
@@ -44,6 +46,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC ${ANTTWEAKBAR_INCLUDE_DIR})
 # OpenGL
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} ${OPENGL_glu_LIBRARY})
+
+# GLM
+#target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_INCLUDE_DIR})
+target_link_libraries(${PROJECT_NAME} glm)
 
 set(${PROJECT_NAME}_DEFINITIONS
         CACHE INTERNAL "${PROJECT_NAME}: Definitions" FORCE)

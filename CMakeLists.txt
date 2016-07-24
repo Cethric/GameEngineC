@@ -76,6 +76,12 @@ elseif (WINDOWS)
     message(FATAL_ERROR "Cannot build for a windows environment")
 endif ()
 
+# GLM
+set(GLM_DYNAMIC_LIBRARY_ENABLE ON CACHE BOOL "" FORCE)
+set(GLM_TEST_ENABLE OFF CACHE BOOL "" FORCE)
+set(GLM_TEST_ENABLE_FAST_MATH ON CACHE BOOL "" FORCE)
+add_subdirectory(sources/ext/glm)
+
 
 ## BUILD
 add_subdirectory(sources/GameEngineC)

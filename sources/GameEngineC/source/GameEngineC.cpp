@@ -1,48 +1,7 @@
 //
 // Created by Blake Rogan on 21/07/2016.
 //
-#include "../include/GameEngineC/GameEngineC.h"
-
-bool loadGLFW(void) {
-    return false;
-}
-
-bool loadPython(void) {
-    return false;
-}
-
-bool loadAntTweakBar(void) {
-    return false;
-}
-
-bool GameEngineC::prepare(int width, int height, void (* callback) (void)) {
-    if (!glfwInit()) {
-        return false;
-    }
-    TwInit(TW_OPENGL, NULL);
-    Py_SetProgramName((wchar_t *) "GameEngineC Python");
-    fprintf(stdout, (const char *) Py_GetProgramName());
-    Py_Initialize();
-    PyObject *pName, *pModule, *pDict, *pFunct;
-    PyObject *pArgs, *pValue;
-    pName = PyUnicode_DecodeFSDefault("this will fail");
-    pModule = PyImport_Import(pName);
-    PyErr_Print();
-    PyRun_SimpleString("print('hello world from python');print(__name__)\n");
-    TwWindowSize(width, height);
-    callback();
-    barOne = TwNewBar("This is a Test Bar");
-    TwAddVarRW(barOne, "Test", TW_TYPE_FLOAT, &float_var, "");
-    TwAddVarRW(barOne, "string_var", TW_TYPE_STDSTRING, &string_var, "");
-    glfWwindow = glfwCreateWindow(width, height, "Test", NULL, NULL);
-    if (glfWwindow) {
-        glfwShowWindow(glfWwindow);
-        return true;
-    }
-    glfwTerminate();
-    return false;
-}
-
+#include "GameEngineC/GameEngineC.h"
 
 void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
     int tweak = TwEventMouseButtonGLFW(button, action);
@@ -65,30 +24,184 @@ void charCallback(GLFWwindow *window, unsigned int code_point) {
 }
 
 void windowResize(GLFWwindow *window, int width, int height) {
+    glViewport(0, 0, width, height);
     int tweak = TwWindowSize(width, height);
 }
 
 
-void GameEngineC::gameLoop() {
-    glfwMakeContextCurrent(glfWwindow);
+bool GameEngineC::loadGLFW(int width, int height) {
+    if (!glfwInit()) {
+        return false;
+    }
 
-    glfwSetMouseButtonCallback(glfWwindow, mouseButtonCallback);
-    glfwSetCursorPosCallback(glfWwindow, (GLFWcursorposfun) cursorPosCallback);
-    glfwSetScrollCallback(glfWwindow, (GLFWscrollfun) scrollCallback);
-    glfwSetKeyCallback(glfWwindow, (GLFWkeyfun) keyCallback);
-    glfwSetCharCallback(glfWwindow, (GLFWcharfun) charCallback);
-    glfwSetWindowSizeCallback(glfWwindow, (GLFWwindowsizefun) windowResize);
+    glfWwindow = glfwCreateWindow(width, height, "Test", NULL, NULL);
+    if (glfWwindow) {
+        glfwShowWindow(glfWwindow);
+
+        glfwMakeContextCurrent(glfWwindow);
+
+        glfwSetMouseButtonCallback(glfWwindow, mouseButtonCallback);
+        glfwSetCursorPosCallback(glfWwindow, (GLFWcursorposfun) cursorPosCallback);
+        glfwSetScrollCallback(glfWwindow, (GLFWscrollfun) scrollCallback);
+        glfwSetKeyCallback(glfWwindow, (GLFWkeyfun) keyCallback);
+        glfwSetCharCallback(glfWwindow, (GLFWcharfun) charCallback);
+        glfwSetWindowSizeCallback(glfWwindow, (GLFWwindowsizefun) windowResize);
+
+        if (onGLFWLoad) {
+            onGLFWLoad();
+        }
+        return true;
+    }
+    return false;
+}
+
+void GameEngineC::destroyGLFW(void) {
+    if (onGLFWDestroy) {
+        onGLFWDestroy();
+    }
+    glfwTerminate();
+}
+
+bool GameEngineC::loadPython(void) {
+    Py_SetProgramName((wchar_t *) "GameEngineC Python");
+    Py_Initialize();
+    PyObject *pName, *pModule, *pDict, *pFunct;
+    PyObject *pArgs, *pValue;
+    pName = PyUnicode_DecodeFSDefault("this will fail");
+    pModule = PyImport_Import(pName);
+    PyErr_Print();
+    PyRun_SimpleString("print('hello world from python');print(__name__)\n");
+    if (onPythonLoad) {
+        onPythonLoad();
+    }
+    return true;
+}
+
+void GameEngineC::destroyPython(void) {
+    if (onPythonDestroy) {
+        onPythonDestroy();
+    }
+    Py_Finalize();
+}
+
+int renderMode = 0;
+
+void toggleModes(void *clientData) {
+    renderMode ++;
+    if (renderMode == 3) {
+        renderMode = 0;
+    }
+}
+
+bool GameEngineC::loadAntTweakBar(int width, int height) {
+    TwInit(TW_OPENGL, NULL);
+    TwWindowSize(width, height);
+    barOne = TwNewBar("OpenGL Render Controls");
+    if (barOne) {
+        TwAddSeparator(barOne, "Colours", "");
+        TwAddVarRW(barOne, "Clear Color", TW_TYPE_COLOR4F, &clearColor, "");
+        TwAddSeparator(barOne, "RenderModes", "");
+        TwAddButton(barOne, "ToggleModes", (TwButtonCallback)toggleModes, NULL, "");
+    }
+    if (onAntTweakBarLoad) {
+        onAntTweakBarLoad();
+    }
+    return true;
+}
+
+void GameEngineC::destroyAntTweakBar(void) {
+    if (onAntTweakBarDestroy) {
+        onAntTweakBarDestroy();
+    }
+    TwTerminate();
+}
+
+bool GameEngineC::prepare(int width, int height, InitialiseCallback callback) {
+    if (loadGLFW(width, height) && loadAntTweakBar(width, height) && loadPython()) {
+        callback();
+        return true;
+    }
+    return false;
+}
+
+void dummyCallback(void) {
+
+}
+
+void GameEngineC::teardown(void) {
+    teardown((DestroyCallback)dummyCallback);
+}
+
+void GameEngineC::teardown(DestroyCallback callback) {
+    destroyPython();
+    destroyAntTweakBar();
+    destroyGLFW();
+    callback();
+}
+
+int GameEngineC::registerRenderEvent(RenderCallback callback) {
+    renderArray.resize(renderArray.size() + 1);
+    renderArray.push_back(callback);
+
+}
+void GameEngineC::unregisterRenderEvent(RenderCallback callback) {
+    renderArray.erase(std::remove(renderArray.begin(), renderArray.end(), callback), renderArray.end());
+    renderArray.shrink_to_fit();
+}
+void GameEngineC::unregisterRenderEvent(int index) {
+    renderArray.erase(renderArray.begin() + index);
+    renderArray.shrink_to_fit();
+}
+int GameEngineC::registerUpdateEvent(UpdateCallback callback) {
+    updateArray.resize(updateArray.size() + 1);
+    updateArray.push_back(callback);
+}
+void GameEngineC::unregisterUpdateEvent(UpdateCallback callback) {
+    updateArray.erase(std::remove(updateArray.begin(), updateArray.end(), callback), updateArray.end());
+    updateArray.shrink_to_fit();
+}
+void GameEngineC::unregisterUpdateEvent(int index) {
+    updateArray.erase(updateArray.begin() + index);
+    updateArray.shrink_to_fit();
+}
+
+void GameEngineC::gameLoop() {
 
     while (!glfwWindowShouldClose(glfWwindow)) {
         glClear(GL_COLOR_BUFFER_BIT);
-        glClearColor(0, 1, 0.5, 1);
+        glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+
+        glPushMatrix();
+        switch (renderMode) {
+            default:
+            case 0:
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                break;
+            case 1:
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                break;
+            case 2:
+                glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+                break;
+        }
+        for (RenderCallback render : renderArray) {
+            if (render) {
+                render();
+            }
+        }
+
+        for (UpdateCallback update : updateArray) {
+            if (update) {
+                update(0.001);
+            }
+        }
+        glPopMatrix();
+
         TwDraw();
 
         glfwSwapBuffers(glfWwindow);
         glfwPollEvents();
     }
 
-    TwTerminate();
-    Py_Finalize();
-    glfwTerminate();
+    teardown();
 }
