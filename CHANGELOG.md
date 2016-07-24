@@ -4,6 +4,10 @@
 
 ### Other
 
+* Work on creating an initial example. Added the devIL Library Added the glm Library. [Cethric]
+
+* Update Changelog. [Cethric]
+
 * Link all libraries. [Cethric]
 
 * Update Changelog. [Cethric]
