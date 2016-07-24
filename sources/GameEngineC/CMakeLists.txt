@@ -22,10 +22,24 @@ target_link_libraries(${PROJECT_NAME} BulletCollision)
 target_link_libraries(${PROJECT_NAME} LinearMath)
 
 # Python
-#target_link_libraries(${PROJECT_NAME} libcpython.a)
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} ${PYTHON_DIR}/lib/libpython3.6dm.dylib)
+elseif (UNIX)
+    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
+elseif (WINDOWS)
+    message(FATAL_ERROR "Cannot build for a windows environment")
+endif ()
+target_include_directories(${PROJECT_NAME} PUBLIC ${PYTHON_INCLUDE_DIR})
 
 # Ant Tweak Bar
-#target_link_libraries(${PROJECT_NAME} libanttweakbar.a)
+if (APPLE)
+    target_link_libraries(${PROJECT_NAME} ${ANTTWEAKBAR_DIR}/lib/libAntTweakBar.dylib)
+elseif (UNIX)
+    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
+elseif (WINDOWS)
+    message(FATAL_ERROR "Cannot build for a windows environment")
+endif ()
+target_include_directories(${PROJECT_NAME} PUBLIC ${ANTTWEAKBAR_INCLUDE_DIR})
 
 # OpenGL
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})

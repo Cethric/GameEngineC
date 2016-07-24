@@ -19,6 +19,10 @@ if (WIN32)
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
 endif ()
 
+if (APPLE)
+    message("Generating files for Apple OSX")
+endif ()
+
 # GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
@@ -35,36 +39,45 @@ include(sources/ext/bullet3/UseBullet.cmake)
 add_subdirectory(sources/ext/assimp)
 
 # Python
-ExternalProject_Add(
-        python3
-        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/sources/ext/cpython
-        CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/source/ext/cpython/configure --prefix=<INSTALL_DIR> --enable-sharedb --with-pymalloc
-        BUILD_COMMAND ${MAKE}
-        PREFIX ${PROJECT_BINARY_DIR}/lib/cpython
-        BUILD_IN_SOURCE 1
-        BUILD_DIR ${PROJECT_BINARY_DIR}/cpython
-)
-include_directories(sources/ext/cpython/Include)
-link_directories(${PROJECT_BINARY_DIR}/lib/cpython)
-#link_libraries(${PROJECT_BINARY_DIR}/cpython)
+set(PYTHON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sources/ext/cpython/install_debug")
+set(PYTHON_INCLUDE_DIR "${PYTHON_DIR}/include/python3.6dm")
+include_directories(${PYTHON_INCLUDE_DIR})
+if (APPLE)
+    find_library(
+            libpython3.6dm.dylib
+            PATHS ${PYTHON_DIR}
+            NO_SYSTEM_ENVIRONMENT_PATH
+            NO_CMAKE_SYSTEM_PATH
+    )
+elseif (UNIX)
+    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
+elseif (WINDOWS)
+    message(FATAL_ERROR "Cannot build for a windows environment")
+endif ()
 
 # Ant Tweak Bar
-#ExternalProject_Add(
-#        anttweakbar
-#        SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/sources/ext/anttweakbar/src
-#        CONFIGURE_COMMAND ""
-#        BUILD_COMMAND make -f Makefile.osx
-#        PREFIX ${PROJECT_BINARY_DIR}/lib/anttweakbar
-#        BUILD_IN_SOURCE 1
-#        BUILD_DIR ${PROJECT_BINARY_DIR}/anttweakbar
-#        INSTALL_COMMAND ""
-#)
-#include_directories(sources/ext/anttweakbar/include)
-#link_directories(${PROJECT_BINARY_DIR}/lib/anttweakbar)
-#link_libraries(${PROJECT_BINARY_DIR}/anttweakbar)
+set(ANTTWEAKBAR_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sources/ext/anttweakbar")
+set(ANTTWEAKBAR_INCLUDE_DIR "${ANTTWEAKBAR_DIR}/include")
+include_directories(${ANTTWEAKBAR_INCLUDE_DIR})
+if (APPLE)
+    execute_process(
+            COMMAND cd ${ANTTWEAKBAR_DIR}/src
+            COMMAND make -f Makefile.osx
+    )
+    find_library(
+            libAntTweakBar.dylib
+            PATHS ${ANTTWEAKBAR_DIR}/lib/
+            NO_SYSTEM_ENVIRONMENT_PATH
+            NO_CMAKE_SYSTEM_PATH
+    )
+elseif (UNIX)
+    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
+elseif (WINDOWS)
+    message(FATAL_ERROR "Cannot build for a windows environment")
+endif ()
+
 
 ## BUILD
-
 add_subdirectory(sources/GameEngineC)
 
 if(GEC_BUILD_EXAMPLES)
