@@ -23,8 +23,10 @@ script:
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     else
-      echo "Upgrading cmake with brew"
-      brew upgrade cmake
+      echo "Downloading CMAKE from cmake.org"
+      CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.2-Darwin-x86_64.tar.gz"
+      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+      export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     fi
   - cd sources/ext/anttweakbar/src
   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then make -f Makefile; fi
