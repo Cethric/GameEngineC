@@ -9,11 +9,9 @@ addons:
   apt:
     packages:
       - cmake
-      - whereami
   brew:
     packages:
       - cmake
-      - whereami
 script:
   - ROOT_DIR=`pwd`
   - |
