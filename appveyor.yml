@@ -11,11 +11,15 @@ install:
 
     DIR
 
-    CD  sources\ext\anttweakbar\src
+    CD sources\
+
+    DIR
+
+    CD  sources\ext\anttweakbar\src\
 
     make -f Makefile
 
-    CD ..\cpython
+    CD ..\cpython\
 
     .\configure --prefix install_debug --enable-shared --with-pydebug --with-pymalloc
 
