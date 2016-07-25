@@ -1,11 +1,16 @@
 language: cpp
+sudo: required
 cache:
   - ccache
 os:
   - linux
   - osx
+before-install:
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get update -q -y; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get upgrade -q -y -u; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo brew update; fi
 before-script:
-  - git submodule init && git submodule update
   - cd sources/ext/anttweakbar
   - cmake -G "Unix Makefiles"
   - make
