@@ -9,13 +9,13 @@ install:
 - cmd: >-
     cmake -version
 
-    cd sources/ext/anttweakbar/src
+    cd C:\projects\gameenginec\sources\ext\anttweakbar\src
 
     make -f Makefile
 
-    cd ../cpython
+    cd C:\projects\gameenginec\sources\ext\cpython
 
-    ./configure --prefix install_debug --enable-shared --with-pydebug --with-pymalloc
+    .\configure --prefix install_debug --enable-shared --with-pydebug --with-pymalloc
 
     make
 
