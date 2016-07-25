@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 include(ExternalProject)
 
+cmake_policy(VERSION 3.5)
+set(CMAKE_MACOSX_RPATH 1)
+#cmake_policy(SET CMP0042 NEW)
+
 option(GEC_BUILD_EXAMPLES "Build Examples" ON)
 
 #set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
@@ -60,10 +64,10 @@ set(ANTTWEAKBAR_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sources/ext/anttweakbar")
 set(ANTTWEAKBAR_INCLUDE_DIR "${ANTTWEAKBAR_DIR}/include")
 include_directories(${ANTTWEAKBAR_INCLUDE_DIR})
 if (APPLE)
-    execute_process(
-            COMMAND cd ${ANTTWEAKBAR_DIR}/src
-            COMMAND make -f Makefile.osx
-    )
+    #    execute_process(
+    #            COMMAND cd ${ANTTWEAKBAR_DIR}/src
+    #            COMMAND make -f Makefile.osx
+    #    )
     find_library(
             libAntTweakBar.dylib
             PATHS ${ANTTWEAKBAR_DIR}/lib/
@@ -81,6 +85,25 @@ set(GLM_DYNAMIC_LIBRARY_ENABLE ON CACHE BOOL "" FORCE)
 set(GLM_TEST_ENABLE OFF CACHE BOOL "" FORCE)
 set(GLM_TEST_ENABLE_FAST_MATH ON CACHE BOOL "" FORCE)
 add_subdirectory(sources/ext/glm)
+
+# OpenEXR (Optional for DevIL)
+option(GEC_BUILD_OPENEXR "Build OpenEXR library for use with DevIL" ON)
+if (GEC_BUILD_OPENEXR)
+    if (GEC_BUILD_EXAMPLES STREQUAL "ON")
+        add_subdirectory(sources/ext/openexr/OpenEXR)
+    endif (GEC_BUILD_EXAMPLES STREQUAL "ON")
+endif (GEC_BUILD_OPENEXR)
+
+# DevIL
+set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
+if (GEC_BUILD_OPENEXR)
+    if (GEC_BUILD_EXAMPLES STREQUAL "ON")
+        set(IL_NO_EXR 0 CACHE INT "" FORCE)
+    else (GEC_BUILD_EXAMPLES STREQUAL "ON")
+        set(IL_NO_EXR 1 CACHE INT "" FORCE)
+    endif (GEC_BUILD_EXAMPLES STREQUAL "ON")
+endif (GEC_BUILD_OPENEXR)
+add_subdirectory(sources/ext/devil/DevIL)
 
 
 ## BUILD

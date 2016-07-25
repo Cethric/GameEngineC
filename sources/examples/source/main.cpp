@@ -5,11 +5,8 @@
 #include <GameEngineC/GameEngineC.h>
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
-#include <glm/mat4x4.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/constants.hpp>
 #include <glm/ext.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 void onInit(void) {
     printf("Hello World!");
@@ -24,10 +21,6 @@ float rotation[4] = {0, 0, 0, 0};
 
 float colorArray[4] = {1, 0, 0, 1};
 bool tranRot = true;
-
-void toogleRotationOrder(void* userData) {
-    tranRot = !tranRot;
-}
 
 float eye_array[3] = {10, 10, 10};
 float center_array[3] = {0, 0, 0};
@@ -45,7 +38,6 @@ void antTweakBar(void) {
         TwAddVarRW(bar, "Scale", TW_TYPE_DIR3D, &scale, "");
         TwAddVarRW(bar, "Colour", TW_TYPE_COLOR4F, &colorArray, "");
         TwAddSeparator(bar, "Render Options", "");
-//        TwAddButton(bar, "Rotation Order", (TwButtonCallback) toogleRotationOrder, NULL, "");
         TwAddVarRW(bar, "Rotation Order", TW_TYPE_BOOLCPP, &tranRot, "");
     }
 

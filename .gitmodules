@@ -22,3 +22,6 @@
 [submodule "sources/ext/devil"]
 	path = sources/ext/devil
 	url = https://github.com/DentonW/DevIL
+[submodule "sources/ext/openexr"]
+	path = sources/ext/openexr
+	url = https://github.com/openexr/openexr

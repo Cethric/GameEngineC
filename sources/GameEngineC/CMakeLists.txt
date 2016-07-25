@@ -51,6 +51,11 @@ target_link_libraries(${PROJECT_NAME} ${OPENGL_glu_LIBRARY})
 #target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_INCLUDE_DIR})
 target_link_libraries(${PROJECT_NAME} glm)
 
+# DevIL
+target_link_libraries(${PROJECT_NAME} DevIL)
+
+## BUILD
+
 set(${PROJECT_NAME}_DEFINITIONS
         CACHE INTERNAL "${PROJECT_NAME}: Definitions" FORCE)
 
