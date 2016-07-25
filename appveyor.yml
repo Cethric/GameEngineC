@@ -15,15 +15,11 @@ install:
 
     DIR
 
-    make -f Makefile
+    msbuild.exe AntTweakBar_VS2012.sln
 
     CD C:\projects\gameenginec\sources\ext\cpython\
 
-    .\configure --prefix C:\projects\gameenginec\sources\ext\cpython\install_debug --enable-shared --with-pydebug --with-pymalloc
-
-    make
-
-    make install
+    PCBuild\build.bat -p x64 -d
 
     CD C:\projects\gameenginec\
 
