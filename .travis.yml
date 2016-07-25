@@ -1,0 +1,21 @@
+language: cpp
+cache:
+  - ccache
+os:
+  - linux
+  - osx
+before-script:
+  - git submodule init && git submodule update
+  - cd sources/ext/anttweakbar
+  - cmake -G "Unix Makefiles"
+  - make
+  - cd ../cpython
+  - ./configure --prefix install_debug --enable-shared --with-pydebug --with-pymalloc
+  - make
+  - make install
+script:
+  - cmake -G "Unix Makefiles"
+  - make
+compiler:
+  - clang
+  - gcc

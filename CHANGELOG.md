@@ -4,6 +4,10 @@
 
 ### Other
 
+* Added OpenEXR library Removed unused code Update CMakeLists.txt to include OpenEXR library. [Cethric]
+
+* Update Changelog. [Cethric]
+
 * Work on creating an initial example. Added the devIL Library Added the glm Library. [Cethric]
 
 * Update Changelog. [Cethric]
