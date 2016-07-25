@@ -1,0 +1,26 @@
+version: 1.0.{build}
+configuration:
+- Debug
+- Release
+platform:
+- x64
+- x86
+install:
+- cmd: >-
+    cmake -version
+
+    cd sources/ext/anttweakbar
+
+    cmake -G "Unix Makefiles"
+
+    make
+
+    cd ../cpython
+
+    ./configure --prefix install_debug --enable-shared --with-pydebug --with-pymalloc
+
+    make
+
+    make install
+build:
+  verbosity: minimal
