@@ -19,8 +19,8 @@ script:
       brew upgrade cmake
     fi
   - cd sources/ext/anttweakbar/src
-  if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then; make -f Makefile; fi
-  if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then; make -f Makefile.osx; fi
+  - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then; make -f Makefile; fi
+  - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then; make -f Makefile.osx; fi
   - cd ../cpython
   - ./configure --prefix "${HOME}/Cethric/GameEngineC/sources/ext/cpython/install_debug" --enable-shared --with-pydebug --with-pymalloc
   - make
