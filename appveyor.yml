@@ -23,6 +23,8 @@ install:
 
     CD C:\projects\gameenginec\
 
+    vcvarsall.bat
+
     cmake -G "NMake Makefiles"
 
     nmake.exe
