@@ -11,7 +11,7 @@ install:
 
     DIR
 
-    CD sources\ext
+    CD sources\ext\anttweakbar\
 
     DIR
 
