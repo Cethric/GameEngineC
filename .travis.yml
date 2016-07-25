@@ -18,11 +18,11 @@ script:
       echo "Upgrading cmake with brew"
       brew upgrade cmake
     fi
-  - cd sources/ext/anttweakbar
-  - cmake -G "Unix Makefiles"
-  - make
+  - cd sources/ext/anttweakbar/src
+  if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then; make -f Makefile; fi
+  if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then; make -f Makefile.osx; fi
   - cd ../cpython
-  - ./configure --prefix install_debug --enable-shared --with-pydebug --with-pymalloc
+  - ./configure --prefix "${HOME}/Cethric/GameEngineC/sources/ext/cpython/install_debug" --enable-shared --with-pydebug --with-pymalloc
   - make
   - make install
   - cd ../../../
