@@ -9,11 +9,8 @@ install:
 - cmd: >-
     cmake -version
 
-    cd sources/ext/anttweakbar
-
-    cmake -G "Unix Makefiles"
-
-    make
+    cd sources/ext/anttweakbar/src
+    make -f Makefile
 
     cd ../cpython
 
