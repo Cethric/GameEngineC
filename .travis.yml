@@ -15,7 +15,7 @@ addons:
       - cmake
       - whereami
 script:
-  - whereami
+  - pwd
   - |
     echo "checking cmake version"
     cmake -version
