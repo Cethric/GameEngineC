@@ -6,6 +6,7 @@ os:
   - linux
   - osx
 script:
+  - whereami
   - |
     echo "checking cmake version"
     cmake -version

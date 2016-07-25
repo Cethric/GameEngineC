@@ -23,5 +23,9 @@ install:
 
     CD C:\projects\gameenginec\
 
+    cmake -G "NMake Makefiles"
+
+    nmake.exe
+
 build:
   verbosity: minimal
