@@ -15,7 +15,7 @@ addons:
       - cmake
       - whereami
 script:
-  - pwd
+  - ROOT_DIR=`pwd`
   - |
     echo "checking cmake version"
     cmake -version
@@ -31,11 +31,11 @@ script:
   - cd sources/ext/anttweakbar/src
   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then make -f Makefile; fi
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then make -f Makefile.osx; fi
-  - cd  ${HOME}/Cethric/GameEngineC/sources/ext/cpython
-  - ./configure --prefix "${HOME}/Cethric/GameEngineC/sources/ext/cpython/install_debug" --enable-shared --with-pydebug --with-pymalloc
+  - cd  ${ROOT_DIR}/sources/ext/cpython
+  - ./configure --prefix "${ROOT_DIR}/sources/ext/cpython/install_debug" --enable-shared --with-pydebug --with-pymalloc
   - make
   - make install
-  - cd ${HOME}/Cethric/GameEngineC/
+  - cd ${ROOT_DIR}/
   - cmake -G "Unix Makefiles"
   - make
 compiler:
