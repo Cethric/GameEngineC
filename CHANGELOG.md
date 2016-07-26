@@ -4,6 +4,60 @@
 
 ### Other
 
+* Fix .travis.yml. [Cethric]
+
+* Fix .travis.yml. [Cethric]
+
+* Fix .travis.yml Fix appveyor.yml. [Cethric]
+
+* Fix .travis.yml Fix appveyor.yml. [Cethric]
+
+* Fix .travis.yml Fix appveyor.yml. [Cethric]
+
+* Fix .travis.yml Fix appveyor.yml. [Cethric]
+
+* Fix .travis.yml Fix appveyor.yml. [Cethric]
+
+* Fix .travis.yml. [Cethric]
+
+* Fix .travis.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update appveyor.yml Update .travis.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update .travis.yml. [Cethric]
+
+* Update .travis.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update appveyor.yml. [Cethric]
+
+* Update .travis.yml. [Cethric]
+
+* Update appveyor,yml. [Cethric]
+
+* Update appveyor,yml. [Cethric]
+
+* Update Travis-CI cmake version Add AppVeyor support. [Cethric]
+
+* Try and update Travis-CI cmake version. [Cethric]
+
+* Try and update Travis-CI cmake version. [Cethric]
+
+* Add Travis-CI support. [Cethric]
+
 * Added OpenEXR library Removed unused code Update CMakeLists.txt to include OpenEXR library. [Cethric]
 
 * Update Changelog. [Cethric]

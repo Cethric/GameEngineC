@@ -17,17 +17,19 @@ script:
   - |
     echo "checking cmake version"
     cmake -version
+    echo "Downloading CMAKE from cmake.org"
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-      echo "Downloading CMAKE from cmake.org"
       CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+      CMAKE_CMD="${ROOT_DIR}/cmake/bin/cmake"
     else
-      echo "Downloading CMAKE from cmake.org"
       CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.2-Darwin-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+      CMAKE_CMD="${ROOT_DIR}/cmake/CMake.app/Contents/bin/cmake"
     fi
+    echo "Finished"
   - cd sources/ext/anttweakbar/src
   - if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then make -f Makefile; fi
   - if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then make -f Makefile.osx; fi
@@ -36,7 +38,7 @@ script:
   - make
   - make install
   - cd ${ROOT_DIR}/
-  - cmake -G "Unix Makefiles"
+  - ${CMAKE_CMD} -G "Unix Makefiles"
   - make
 compiler:
   - clang
