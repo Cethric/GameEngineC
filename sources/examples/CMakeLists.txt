@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.4)
 project(Example C CXX)
 
 set(CMAKE_SOURCE_DIR ${CMAKE_SOURCE_DIR}/source/)

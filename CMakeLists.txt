@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.4)
 include(ExternalProject)
 
 cmake_policy(VERSION 3.5)
