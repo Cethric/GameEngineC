@@ -3,6 +3,7 @@
 //
 #include <iostream>
 #include <GameEngineC/GameEngineC.h>
+#include <GameEngineC/GameEngine/EventEngine.h>
 #include <glm/vec3.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -76,9 +77,11 @@ void onRender(void) {
 
 int main()
 {
+    EventEngine eventEngine;
     engineC = GameEngineC();
     engineC.registerRenderEvent(onRender);
     engineC.onAntTweakBarLoad = antTweakBar;
+    eventEngine = new EventEngine(engineC.glfWwindow);
     bool result = engineC.prepare(800, 600, &onInit);
     if (result) {
         engineC.gameLoop();

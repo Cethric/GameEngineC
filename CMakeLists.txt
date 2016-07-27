@@ -36,6 +36,10 @@ add_subdirectory(sources/ext/glfw)
 # Bullet Physics
 set(BUILD_SHARED_LIBS ON CACHE BOOL "" FORCE)
 set(BUILD_UNIT_TESTS OFF CACHE BOOL "" FORCE)
+set(BUILD_BULLET2_DEMOS OFF CACHE BOOL "" FORCE)
+set(BUILD_BULLET3_DEMOS OFF CACHE BOOL "" FORCE)
+set(BUILD_CPU_DEMOS OFF CACHE BOOL "" FORCE)
+
 add_subdirectory(sources/ext/bullet3)
 include(sources/ext/bullet3/UseBullet.cmake)
 
@@ -54,7 +58,13 @@ if (APPLE)
             NO_CMAKE_SYSTEM_PATH
     )
 elseif (UNIX)
-    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
+#    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
+    find_library(
+            libpython3.6dm.so
+            PATHS ${PYTHON_DIR}
+            NO_SYSTEM_ENVIRONMENT_PATH
+            NO_CMAKE_SYSTEM_PATH
+    )
 elseif (WINDOWS)
     message(FATAL_ERROR "Cannot build for a windows environment")
 endif ()
@@ -75,7 +85,13 @@ if (APPLE)
             NO_CMAKE_SYSTEM_PATH
     )
 elseif (UNIX)
-    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
+    find_library(
+            libAntTweakBar.so
+            PATHS ${ANTTWEAKBAR_DIR}/lib/
+            NO_SYSTEM_ENVIRONMENT_PATH
+            NO_CMAKE_SYSTEM_PATH
+    )
+#    message(FATAL_ERROR "Cannot build for a unix environment other than OSX")
 elseif (WINDOWS)
     message(FATAL_ERROR "Cannot build for a windows environment")
 endif ()

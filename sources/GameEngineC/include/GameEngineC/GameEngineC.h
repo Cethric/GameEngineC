@@ -33,11 +33,11 @@ public:
 
     TwBar *barOne;
 
+    GLFWwindow *glfWwindow;
+
 private:
     std::vector<RenderCallback> renderArray;
     std::vector<UpdateCallback> updateArray;
-
-    GLFWwindow *glfWwindow;
 
     float clearColor[4] = {0.5960784313725490196f, 0.7843137254901960743f, 1.0f, 1.0f};
     bool loadGLFW(int width, int height);
