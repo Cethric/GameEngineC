@@ -87,7 +87,7 @@ set(GLM_TEST_ENABLE_FAST_MATH ON CACHE BOOL "" FORCE)
 add_subdirectory(sources/ext/glm)
 
 # OpenEXR (Optional for DevIL)
-option(GEC_BUILD_OPENEXR "Build OpenEXR library for use with DevIL" ON)
+option(GEC_BUILD_OPENEXR "Build OpenEXR library for use with DevIL." OFF)
 if (GEC_BUILD_OPENEXR)
     if (GEC_BUILD_EXAMPLES STREQUAL "ON")
         add_subdirectory(sources/ext/openexr/OpenEXR)
